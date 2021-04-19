@@ -27,6 +27,13 @@ class _TableRangeExampleState extends State<TableRangeExample> {
         title: Text('TableCalendar - Range'),
       ),
       body: TableCalendar(
+        daysToShow: [
+          DateTime.monday,
+          DateTime.tuesday,
+          DateTime.wednesday,
+          DateTime.thursday,
+          DateTime.friday
+        ],
         firstDay: kFirstDay,
         lastDay: kLastDay,
         focusedDay: _focusedDay,

@@ -28,6 +28,7 @@ class CalendarCore extends StatelessWidget {
   final PageController? pageController;
   final ScrollPhysics? scrollPhysics;
   final _OnCalendarPageChanged onPageChanged;
+  final List<int> daysToShow;
 
   const CalendarCore({
     Key? key,
@@ -37,6 +38,7 @@ class CalendarCore extends StatelessWidget {
     required this.firstDay,
     required this.lastDay,
     required this.constraints,
+    required this.daysToShow,
     this.dowHeight,
     this.rowHeight,
     this.startingDayOfWeek = StartingDayOfWeek.sunday,
@@ -74,6 +76,7 @@ class CalendarCore extends StatelessWidget {
           dowVisible: dowVisible,
           dowDecoration: dowDecoration,
           rowDecoration: rowDecoration,
+          daysToShow: daysToShow,
           dowBuilder: (context, day) {
             return SizedBox(
               height: dowHeight,

@@ -67,6 +67,13 @@ class _TableMultiExampleState extends State<TableMultiExample> {
       body: Column(
         children: [
           TableCalendar<Event>(
+            daysToShow: [
+              DateTime.monday,
+              DateTime.tuesday,
+              DateTime.wednesday,
+              DateTime.thursday,
+              DateTime.friday
+            ],
             firstDay: kFirstDay,
             lastDay: kLastDay,
             focusedDay: _focusedDay,

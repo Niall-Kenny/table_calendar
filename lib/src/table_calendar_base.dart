@@ -32,12 +32,14 @@ class TableCalendarBase extends StatefulWidget {
   final SwipeCallback? onVerticalSwipe;
   final void Function(DateTime focusedDay)? onPageChanged;
   final void Function(PageController pageController)? onCalendarCreated;
+  final List<int> daysToShow;
 
   TableCalendarBase({
     Key? key,
     required this.firstDay,
     required this.lastDay,
     required this.focusedDay,
+    required this.daysToShow,
     this.calendarFormat = CalendarFormat.month,
     this.dowBuilder,
     required this.dayBuilder,
@@ -202,6 +204,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
             child: CalendarCore(
               constraints: constraints,
               pageController: _pageController,
+              daysToShow: widget.daysToShow,
               scrollPhysics: _canScrollHorizontally
                   ? PageScrollPhysics()
                   : NeverScrollableScrollPhysics(),

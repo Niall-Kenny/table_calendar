@@ -11,6 +11,9 @@ class CalendarPage extends StatelessWidget {
   final Decoration? rowDecoration;
   final bool dowVisible;
 
+  /// list of weekdays to show as columns. e.g. `[DateTime.monday, DateTime.tuesday ...]`
+  final List<int> daysToShow;
+
   const CalendarPage({
     Key? key,
     required this.visibleDays,
@@ -19,7 +22,8 @@ class CalendarPage extends StatelessWidget {
     this.dowDecoration,
     this.rowDecoration,
     this.dowVisible = true,
-  })  : assert(!dowVisible || dowBuilder != null),
+    required this.daysToShow,
+  })   : assert(!dowVisible || dowBuilder != null),
         super(key: key);
 
   @override
@@ -36,7 +40,7 @@ class CalendarPage extends StatelessWidget {
     return TableRow(
       decoration: dowDecoration,
       children: List.generate(
-        7,
+        daysToShow.length,
         (index) => dowBuilder!(context, visibleDays[index]),
       ).toList(),
     );
@@ -45,14 +49,42 @@ class CalendarPage extends StatelessWidget {
   List<TableRow> _buildCalendarDays(BuildContext context) {
     final rowAmount = visibleDays.length ~/ 7;
 
-    return List.generate(rowAmount, (index) => index * 7)
-        .map((index) => TableRow(
-              decoration: rowDecoration,
-              children: List.generate(
-                7,
-                (id) => dayBuilder(context, visibleDays[index + id]),
-              ),
-            ))
+    // print(List.generate(rowAmount, (index) => index * 5).map((index) => List.generate(
+    //             5,
+    //             (id) => visibleDays[index + id],
+    //           )));
+
+    // Original return value
+    //  List.generate(rowAmount, (index) => index * 7)
+    //     .map((index) => TableRow(
+    //           decoration: rowDecoration,
+    //           children: List.generate(
+    //             5,
+    //             (id) => dayBuilder(context, visibleDays[index + id]),
+    //           ),
+    //         ))
+    //     .toList();
+
+    var newList = List.generate(rowAmount, (index) => index * 7);
+    List<List<DateTime>> month = [];
+    newList.forEach((index) {
+      month.add(List.generate(
+        7,
+        (id) => visibleDays[index + id],
+      ));
+    });
+
+    List<List<DateTime>> dayColumnsToShowOnScreen = [];
+    month.forEach((week) => dayColumnsToShowOnScreen
+        .add(week.where((date) => daysToShow.contains(date.weekday)).toList()));
+    return dayColumnsToShowOnScreen
+        .map((e) => TableRow(
+            decoration: rowDecoration,
+            children: e
+                .map(
+                  (date) => dayBuilder(context, date),
+                )
+                .toList()))
         .toList();
   }
 }

@@ -196,12 +196,16 @@ class TableCalendar<T> extends StatefulWidget {
   /// Called when the calendar is created. Exposes its PageController.
   final void Function(PageController pageController)? onCalendarCreated;
 
+  /// list of weekdays to show as columns. e.g. `[DateTime.monday, DateTime.tuesday ...]`
+  final List<int> daysToShow;
+
   /// Creates a `TableCalendar` widget.
   TableCalendar({
     Key? key,
     required DateTime focusedDay,
     required DateTime firstDay,
     required DateTime lastDay,
+    required this.daysToShow,
     this.locale,
     this.rangeStartDay,
     this.rangeEndDay,
@@ -472,6 +476,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
               _pageController = pageController;
               widget.onCalendarCreated?.call(pageController);
             },
+            daysToShow: widget.daysToShow,
             focusedDay: _focusedDay.value,
             calendarFormat: widget.calendarFormat,
             availableGestures: widget.availableGestures,
